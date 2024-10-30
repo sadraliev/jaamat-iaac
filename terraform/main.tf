@@ -5,8 +5,8 @@ provider "aws" {
 }
 
 
-resource "aws_security_group" "boogoo-vsg" {
-  name        = "boogoo-svg"
+resource "aws_security_group" "jaamat-x-bot-vsg" {
+  name        = "jaamat-x-bot-svg"
   description = "Allow http inbound traffic"
 
 
@@ -39,19 +39,30 @@ resource "aws_security_group" "boogoo-vsg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "tf-boogoo-vsg"
+    Name = "tf-jaamat-x-bot-vsg"
   }
 }
 
-resource "aws_instance" "boogoo-ec2" {
+resource "aws_instance" "jaamat-x-bot-ec2" {
   instance_type          = "t2.micro"
   ami                    = "ami-0e86e20dae9224db8"
   key_name               = aws_key_pair.key_pair.key_name
-  vpc_security_group_ids = [aws_security_group.boogoo-vsg.id]
+  vpc_security_group_ids = [aws_security_group.jaamat-x-bot-vsg.id]
 
   user_data = file("setup.sh")
 
   tags = {
-    Name = "tf-boogoo-ec2"
+    Name = "tf-jaamat-x-bot-ec2"
   }
+}
+
+resource "aws_eip" "jaamat-x-bot-eip" {
+  tags = {
+    Name = "tf-jammat-x-bot-elastic-ip"
+  }
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.jaamat-x-bot-ec2.id
+  allocation_id = aws_eip.jaamat-x-bot-eip.id
 }
