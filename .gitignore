@@ -2,4 +2,4 @@ terraform/.terraform
 terraform/*tfvars
 terraform/.backup
 terraform/*.pem
-terraform/terraform.tfstate.backup
+terraform/terraform.tfstate*
